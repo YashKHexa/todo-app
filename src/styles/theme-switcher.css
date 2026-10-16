@@ -1,0 +1,12 @@
+/* Match the theme set by the head script before React hydrates. */
+.theme-switcher-initial-icon [data-theme-icon] {
+  display: none;
+}
+
+html[data-theme="light"] .theme-switcher-initial-icon [data-theme-icon="light"],
+html[data-theme="dark"] .theme-switcher-initial-icon [data-theme-icon="dark"],
+html:not([data-theme="light"], [data-theme="dark"])
+  .theme-switcher-initial-icon
+  [data-theme-icon="system"] {
+  display: inline;
+}
