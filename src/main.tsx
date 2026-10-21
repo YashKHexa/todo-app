@@ -81,6 +81,9 @@ export function Root() {
             itemSelectedBg: getThemeColor("--theme-color-primary"),
             itemSelectedColor: getThemeColor("--theme-color-on-brand"),
           },
+          Divider: {
+            marginLG: 0,
+          },
         },
       }}
     >
