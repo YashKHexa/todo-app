@@ -1,12 +1,7 @@
 import { create } from "zustand";
+import type { Todo } from "@/types/types";
 
-export interface Todo {
-  id: string;
-  title: string;
-  isCompleted: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
+export type { Todo } from "@/types/types";
 
 export type TodoFilter = "all" | "active" | "completed";
 

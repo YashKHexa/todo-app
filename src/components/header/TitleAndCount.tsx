@@ -1,7 +1,13 @@
-import { useTodoStore } from "@/state/useTodoStore";
+import { getTodos } from "@/api/todos";
+import { useQuery } from "@tanstack/react-query";
 
 const TitleAndCount = () => {
-  const todoCount = useTodoStore((state) => state.todos.length);
+  const response = useQuery({
+    queryKey: ["todos"],
+    queryFn: getTodos,
+  });
+
+  const todoCount = response.data?.data.length ?? 0;
 
   return (
     <div className="inline-flex items-end gap-2">

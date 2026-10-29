@@ -1,8 +1,7 @@
-import type { Todo } from "@/state/useTodoStore";
+import type { TasksResponse } from "@/types/types";
 import axiosInstance from "./axios";
 
-
-export const getTodos = async (): Promise<Todo[]> => {
-  const { data } = await axiosInstance.get<Todo[]>("/tasks");
+export const getTodos = async (): Promise<TasksResponse> => {
+  const { data } = await axiosInstance.get<TasksResponse>("/tasks");
   return data;
 };
