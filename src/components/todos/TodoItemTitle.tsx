@@ -49,7 +49,7 @@ const TodoItemTitle = ({ todo }: { todo: Todo }) => {
       }}
       className={cn(
         "min-w-0 flex-1 wrap-break-words text-sm",
-        todo.completed && "text-font-secondary line-through",
+        todo.isCompleted && "text-font-secondary line-through",
       )}
     >
       {todo.title}

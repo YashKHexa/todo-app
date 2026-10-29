@@ -3,7 +3,7 @@ import { useTodoStore } from "@/state/useTodoStore";
 
 const ClearCompletedTodos = () => {
   const completedCount = useTodoStore(
-    (state) => state.todos.filter((todo) => todo.completed).length,
+    (state) => state.todos.filter((todo) => todo.isCompleted).length,
   );
   const clearCompleted = useTodoStore((state) => state.clearCompleted);
 

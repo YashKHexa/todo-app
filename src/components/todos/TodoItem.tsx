@@ -10,10 +10,10 @@ const TodoItem = ({ todo }: { todo: Todo }) => {
   return (
     <li className="group flex min-h-14 items-center gap-3 rounded-theme border border-border bg-background px-4 transition-colors hover:bg-background-secondary">
       <Checkbox
-        checked={todo.completed}
+        checked={todo.isCompleted}
         onChange={() => toggleCompleted(todo.id)}
         aria-label={`Mark "${todo.title}" as ${
-          todo.completed ? "incomplete" : "complete"
+          todo.isCompleted ? "incomplete" : "complete"
         }`}
       />
       <TodoItemTitle todo={todo} />

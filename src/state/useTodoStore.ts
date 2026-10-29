@@ -3,8 +3,9 @@ import { create } from "zustand";
 export interface Todo {
   id: string;
   title: string;
-  completed: boolean;
-  createdAt: number;
+  isCompleted: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export type TodoFilter = "all" | "active" | "completed";
@@ -12,6 +13,7 @@ export type TodoFilter = "all" | "active" | "completed";
 interface TodoStore {
   todos: Todo[];
   filter: TodoFilter;
+  setTodos: (todos: Todo[]) => void;
   setFilter: (filter: TodoFilter) => void;
   addTodo: (title: string) => void;
   updateTodoTitle: (id: string, title: string) => void;
@@ -23,6 +25,7 @@ interface TodoStore {
 export const useTodoStore = create<TodoStore>((set) => ({
   todos: [],
   filter: "all",
+  setTodos: (todos) => set({ todos }),
   setFilter: (filter) => set({ filter }),
   addTodo: (title) => {
     const normalizedTitle = title.trim();
@@ -34,8 +37,9 @@ export const useTodoStore = create<TodoStore>((set) => ({
         {
           id: crypto.randomUUID(),
           title: normalizedTitle,
-          completed: false,
-          createdAt: Date.now(),
+          isCompleted: false,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
         },
       ],
     }));
@@ -46,14 +50,26 @@ export const useTodoStore = create<TodoStore>((set) => ({
 
     set((state) => ({
       todos: state.todos.map((todo) =>
-        todo.id === id ? { ...todo, title: normalizedTitle } : todo,
+        todo.id === id
+          ? {
+              ...todo,
+              title: normalizedTitle,
+              updatedAt: new Date().toISOString(),
+            }
+          : todo,
       ),
     }));
   },
   toggleCompleted: (id) =>
     set((state) => ({
       todos: state.todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo,
+        todo.id === id
+          ? {
+              ...todo,
+              isCompleted: !todo.isCompleted,
+              updatedAt: new Date().toISOString(),
+            }
+          : todo,
       ),
     })),
   deleteTodo: (id) =>
@@ -62,6 +78,6 @@ export const useTodoStore = create<TodoStore>((set) => ({
     })),
   clearCompleted: () =>
     set((state) => ({
-      todos: state.todos.filter((todo) => !todo.completed),
+      todos: state.todos.filter((todo) => !todo.isCompleted),
     })),
 }));
