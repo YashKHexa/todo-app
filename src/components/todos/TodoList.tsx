@@ -1,8 +1,15 @@
 import { Empty } from "antd";
 import { useTodoStore } from "@/state/useTodoStore";
 import TodoItem from "./TodoItem";
+import { useQuery } from "@tanstack/react-query";
+import { getTodos } from "@/api/todos";
 
 const TodoList = () => {
+  const response = useQuery({
+    queryKey: ["todos"],
+    queryFn: getTodos,
+  });
+
   const todos = useTodoStore((state) => state.todos);
   const filter = useTodoStore((state) => state.filter);
   const filteredTodos = todos.filter((todo) => {
