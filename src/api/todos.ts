@@ -13,11 +13,11 @@ export const addTodo = async (title: string): Promise<MutationResponse> => {
   return data;
 };
 
-export const updateTodo = async (
+export const updateTodoTitle = async (
   id: string,
-  title: string
+  title: string,
 ): Promise<MutationResponse> => {
-  const { data } = await axiosInstance.put<MutationResponse>(`/tasks/${id}`, {
+  const { data } = await axiosInstance.patch<MutationResponse>(`/tasks/${id}`, {
     title,
   });
   return data;
@@ -41,3 +41,8 @@ export const toggleTodoStatus = async ({
   return data;
 };
 
+export const clearCompletedTodos = async (): Promise<MutationResponse> => {
+  const { data } =
+    await axiosInstance.delete<MutationResponse>("/tasks/completed");
+  return data;
+};

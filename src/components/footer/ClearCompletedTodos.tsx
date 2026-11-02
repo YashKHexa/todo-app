@@ -1,6 +1,6 @@
 import { Button, Popconfirm } from "antd";
 import {useQuery, useMutation, useQueryClient } from "@tanstack/react-query"; 
-import {getTodos, deleteTodo} from "@/api/todos";    
+import { clearCompletedTodos, getTodos } from "@/api/todos";
 import type { Todo } from "@/types/types";
 
 
@@ -17,11 +17,7 @@ const ClearCompletedTodos = () => {
   const completedCount = completedTodos.length;
 
   const { mutate: clearCompleted, isPending } = useMutation({
-    mutationFn: async () => {
-      await Promise.all(
-        completedTodos.map((todo: Todo) => deleteTodo(todo.id))
-      );
-    },
+    mutationFn: clearCompletedTodos,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
     },

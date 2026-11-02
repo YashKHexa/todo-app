@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Input } from "antd";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateTodo } from "@/api/todos";
+import { updateTodoTitle } from "@/api/todos";
 import type { Todo } from "@/types/types";
 import { cn } from "@/utils/cn";
 
@@ -13,7 +13,7 @@ const TodoItemTitle = ({ todo }: { todo: Todo }) => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: ({ id, title }: { id: string; title: string }) =>
-      updateTodo(id, title),
+      updateTodoTitle(id, title),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
       setIsEditing(false);
