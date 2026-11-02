@@ -27,3 +27,17 @@ export const deleteTodo = async (id: string): Promise<MutationResponse> => {
   const { data } = await axiosInstance.delete<MutationResponse>(`/tasks/${id}`);
   return data;
 };
+
+export const toggleTodoStatus = async ({
+  id,
+  isCompleted,
+}: {
+  id: string;
+  isCompleted: boolean;
+}): Promise<MutationResponse> => {
+  const { data } = await axiosInstance.patch<MutationResponse>(`/tasks/${id}`, {
+    isCompleted,
+  });
+  return data;
+};
+
