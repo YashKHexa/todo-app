@@ -6,11 +6,18 @@ export interface Todo {
   updatedAt: string;
 }
 
-export interface TasksResponse {
+interface BaseResponse {
   status: string;
   statusCode: number;
   message: string;
-  data: Todo[];
   timestamp: string;
   path: string;
+}
+
+export interface QueryResponse extends BaseResponse {
+  data: Todo[];
+}
+
+export interface MutationResponse extends BaseResponse {
+  data: Todo;
 }

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Input } from "antd";
 import { CornerDownLeft, Plus } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axiosInstance from "@/api/axios";
+import { addTodo as addTodoRequest } from "@/api/todos";
 
 const EnterSuffix = () => {
   return (
@@ -18,12 +18,8 @@ const TodoInput = () => {
   const queryClient = useQueryClient();
 
   const { mutate: addTodo, isPending } = useMutation({
-    mutationFn: async (newTitle: string) => {
-      const { data } = await axiosInstance.post("/tasks", { title: newTitle });
-      return data;
-    },
+    mutationFn: addTodoRequest,
     onSuccess: () => {
-      
       queryClient.invalidateQueries({ queryKey: ["todos"] });
       setTitle("");
     },
