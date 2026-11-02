@@ -12,3 +12,18 @@ export const addTodo = async (title: string): Promise<MutationResponse> => {
   });
   return data;
 };
+
+export const updateTodo = async (
+  id: string,
+  title: string
+): Promise<MutationResponse> => {
+  const { data } = await axiosInstance.put<MutationResponse>(`/tasks/${id}`, {
+    title,
+  });
+  return data;
+};
+
+export const deleteTodo = async (id: string): Promise<MutationResponse> => {
+  const { data } = await axiosInstance.delete<MutationResponse>(`/tasks/${id}`);
+  return data;
+};
