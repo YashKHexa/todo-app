@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Input } from "antd";
 import { CornerDownLeft, Plus } from "lucide-react";
-import { useTodoStore } from "@/state/useTodoStore";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axiosInstance from "@/api/axios";
 
 const EnterSuffix = () => {
   return (
@@ -14,22 +15,35 @@ const EnterSuffix = () => {
 
 const TodoInput = () => {
   const [title, setTitle] = useState("");
-  const addTodo = useTodoStore((state) => state.addTodo);
+  const queryClient = useQueryClient();
+
+  const { mutate: addTodo, isPending } = useMutation({
+    mutationFn: async (newTitle: string) => {
+      const { data } = await axiosInstance.post("/tasks", { title: newTitle });
+      return data;
+    },
+    onSuccess: () => {
+      
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
+      setTitle("");
+    },
+  });
 
   const handlePressEnter = () => {
-    if (!title.trim()) return;
+    const trimmed = title.trim();
+    if (!trimmed || isPending) return;
 
-    addTodo(title);
-    setTitle("");
+    addTodo(trimmed);
   };
 
   return (
     <div>
       <Input
+        disabled={isPending}
         prefix={<Plus strokeWidth={1} />}
         suffix={<EnterSuffix />}
         size="large"
-        placeholder="What needs to be done?"
+        placeholder={isPending ? "Adding task..." : "What needs to be done?"}
         value={title}
         onChange={(event) => setTitle(event.target.value)}
         onPressEnter={handlePressEnter}
